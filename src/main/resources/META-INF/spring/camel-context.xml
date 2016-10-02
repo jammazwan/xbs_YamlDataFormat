@@ -6,16 +6,22 @@
         http://www.springframework.org/schema/context
         http://www.springframework.org/schema/context/spring-context.xsd
         http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd">
-	
-	<!-- allows you to create a bean without referencing it in this file-->
-	<context:component-scan base-package="jammazwan.xbs" />
-    
-    
-    
-    <bean id="xbsRoutes" class="jammazwan.xbs.XbsRoutes"/>
 
-    <camelContext id="xbs" xmlns="http://camel.apache.org/schema/spring">
-        <routeBuilder ref="xbsRoutes"/>
-    </camelContext>
+	<!-- allows you to create a bean without referencing it in this file -->
+	<context:component-scan base-package="jammazwan.xbs" />
+
+
+
+	<bean id="xbsRoutes" class="jammazwan.xbs.XbsRoutes" />
+
+	<camelContext id="xbs" xmlns="http://camel.apache.org/schema/spring">
+		<routeBuilder ref="xbsRoutes" />
+		<dataFormats>
+			<!-- here we define a YAML data format with the id snak and that it should 
+				use the TestPojo as the class type when doing unmarshal. The unmarshalTypeName 
+				is optional, if not provided Camel will use a Object.class as the type -->
+			<yaml id="snake" library="SnakeYAML" unmarshalTypeName="jammazwan.xbs.MyBean"/>
+		</dataFormats>
+	</camelContext>
 
 </beans>
